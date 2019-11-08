@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeManagement.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,9 @@ namespace EmployeeManagement
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                services.AddMvc();
+                //services.AddMvcCore();
+                services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
             });
 
 
@@ -74,13 +78,15 @@ namespace EmployeeManagement
 
 
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
+            //app.UseMvc();
 
-            app.Run(async (context) =>
-            {
-                //throw new Exception("Some error processing the request");
-                //await context.Response.WriteAsync("Hello World!");
-                await context.Response.WriteAsync("Hosting Environment: " + env.EnvironmentName);
-            });
+            //app.Run(async (context) =>
+            //{
+            //    //throw new Exception("Some error processing the request");
+            //    //await context.Response.WriteAsync("Hello World!");
+            //    await context.Response.WriteAsync("Hosting Environment: " + env.EnvironmentName);
+            //});
 
 
 
@@ -104,13 +110,13 @@ namespace EmployeeManagement
             //        logger.LogInformation("MW3: Request handled and response produced");
             //    });
 
-
+            
 
             app.UseHttpsRedirection();
             //app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc();
+            //app.UseMvc();
         }
     }
 }
